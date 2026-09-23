@@ -1,0 +1,117 @@
+@extends('layouts.dashboard')
+@section('page-title','Dashboard')
+@section('content')
+<!-- Today's Gold Rate & Welcome Banner -->
+<div class="relative rounded-3xl overflow-hidden mb-8 bg-ink-900 border border-gold-400/30 text-white shadow-2xl">
+    <img src="{{ asset('images/dashboard-banner.png') }}" alt="Showroom" class="absolute inset-0 w-full h-full object-cover opacity-25">
+    <div class="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+            <div class="flex items-center gap-2 mb-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs uppercase tracking-widest text-gold-400 font-semibold">Today's Live Rate · {{ date('D, d M Y') }}</span>
+            </div>
+            <h2 class="text-2xl md:text-4xl font-serif font-bold text-white mb-2">Welcome Back, Customer</h2>
+            <p class="text-white/80 text-sm max-w-lg">Track your accumulated gold weight, manage active savings plans, and pay EMIs effortlessly.</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 min-w-[240px]">
+            <p class="text-xs text-gold-300 font-semibold mb-1">LIVE GOLD RATE TODAY</p>
+            <div class="flex justify-between items-baseline mb-1">
+                <span class="text-xs text-white/80">22K Gold (1g)</span>
+                <span class="font-serif font-bold text-lg text-gold-400">₹6,589 <span class="text-emerald-400 text-xs font-sans">▲ +₹25</span></span>
+            </div>
+            <div class="flex justify-between items-baseline mb-2">
+                <span class="text-xs text-white/80">24K Gold (1g)</span>
+                <span class="font-serif font-bold text-sm text-white">₹7,188 <span class="text-emerald-400 text-xs font-sans">▲ +₹28</span></span>
+            </div>
+            <p class="text-[10px] text-white/60 text-right">Updated today at {{ date('h:i A') }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="grid md:grid-cols-4 gap-6 mb-8">
+    <x-stat-card label="Active Plans" value="2" sub="1 due in 3 days" />
+    <x-stat-card label="Total Paid" value="₹58,000" />
+    <x-stat-card label="Gold Accumulated" value="8.80 gm" sub="Pure 22K Gold" />
+    <x-stat-card label="Closed Plans" value="1" />
+</div>
+
+<div class="grid md:grid-cols-3 gap-6 mb-8">
+    <!-- Accumulated Gold Weight Vault Card -->
+    <div class="card p-6 md:col-span-2 flex flex-col sm:flex-row gap-6 items-center bg-gradient-to-br from-gold-50/50 to-white">
+        <div class="w-full sm:w-48 aspect-square rounded-2xl overflow-hidden border border-gold-200 shadow-md flex-shrink-0">
+            <img src="{{ asset('images/dashboard-vault.png') }}" alt="Gold Vault" class="w-full h-full object-cover">
+        </div>
+        <div>
+            <span class="text-xs text-gold-600 font-semibold tracking-widest uppercase mb-1 block">Accumulated Holdings</span>
+            <h3 class="font-serif text-2xl font-bold text-ink-900 mb-2">Your Gold Vault: 8.80 Grams</h3>
+            <p class="text-sm text-ink-900/60 mb-4">Your monthly scheme instalments are automatically converted into 22K gold weight based on today's live rate.</p>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ url('/dashboard/gold-weight') }}" class="btn-gold !px-5 !py-2 text-xs">View Weight Breakdown</a>
+                <a href="{{ url('/dashboard/my-plans') }}" class="btn-outline !px-5 !py-2 text-xs">Add Gold Weight</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today's Rate Breakdown Card -->
+    <div class="card p-6 bg-ink-900 text-white flex flex-col justify-between">
+        <div>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-serif font-semibold text-lg text-gold-400">Daily Gold Rate</h3>
+                <span class="text-[10px] bg-gold-500/20 text-gold-400 px-2 py-0.5 rounded-full uppercase tracking-wider">Live</span>
+            </div>
+            <div class="space-y-3 mb-6 text-sm">
+                <div class="flex justify-between pb-2 border-b border-white/10">
+                    <span class="text-white/70">22K Gold (8g / 1 Pavan)</span>
+                    <span class="font-bold text-gold-400">₹52,712</span>
+                </div>
+                <div class="flex justify-between pb-2 border-b border-white/10">
+                    <span class="text-white/70">24K Pure Gold (10g)</span>
+                    <span class="font-bold text-white">₹71,880</span>
+                </div>
+                <div class="flex justify-between pb-2 border-b border-white/10">
+                    <span class="text-white/70">Silver (1g)</span>
+                    <span class="font-bold text-white">₹88.50</span>
+                </div>
+            </div>
+        </div>
+        <p class="text-xs text-white/60">Rates automatically refresh daily based on Chennai Bullion Market benchmarks.</p>
+    </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6">
+    <div class="card p-6 flex flex-col justify-between">
+        <div>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-serif font-semibold">Active Plan Details</h3>
+                <a href="{{ url('/dashboard/my-plans') }}" class="text-gold-500 text-sm">View all →</a>
+            </div>
+            <div class="p-4 rounded-xl bg-gold-50 border border-gold-100 flex items-center gap-4">
+                <img src="{{ asset('images/dashboard-scheme.png') }}" alt="Scheme" class="w-16 h-16 rounded-xl object-cover border border-gold-300">
+                <div class="flex-1">
+                    <p class="font-semibold text-sm">Sri Akshayam Gold Scheme</p>
+                    <div class="grid grid-cols-3 text-xs text-ink-900/60 gap-2 mt-1">
+                        <div><p class="text-ink-900/40">ID</p><p class="font-medium text-ink-900">AZ 0658</p></div>
+                        <div><p class="text-ink-900/40">Installment</p><p class="font-medium text-ink-900">₹5,000</p></div>
+                        <div><p class="text-ink-900/40">Dues</p><p class="font-medium text-ink-900">03/12</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="text-xs text-gold-600 mt-4 flex items-center gap-1"><i class="bi bi-clock"></i> Next payment due in 3 days (19 {{ date('M Y') }})</p>
+    </div>
+    <div class="card p-6">
+        <h3 class="font-serif font-semibold mb-4">Quick Dashboard Actions</h3>
+        <div class="grid grid-cols-2 gap-3 text-sm">
+            <a href="{{ url('/dashboard/my-plans') }}" class="btn-gold justify-center">Pay EMIs</a>
+            <a href="{{ url('/dashboard/new-plan') }}" class="btn-outline justify-center">Join New Plan</a>
+            <a href="{{ url('/dashboard/payment-history') }}" class="btn-outline justify-center">Payment History</a>
+            <a href="{{ url('/dashboard/gold-weight') }}" class="btn-outline justify-center">Gold Weight Vault</a>
+        </div>
+    </div>
+</div>
+
+<section class="mt-10 pt-8 border-t-2 border-gold-200" id="v-anand-todays-rate">
+    <p class="text-xs uppercase tracking-widest text-gold-600 font-semibold mb-3">Live bullion rates</p>
+    <x-todays-rate-widget class="w-full max-w-2xl" />
+</section>
+@endsection
