@@ -1,6 +1,7 @@
 @php
 $links = [
     ['Dashboard', '/dashboard', 'home'],
+    ['Shop Jewellery', '/shop', 'shop'],
     ['My Plans', '/dashboard/my-plans', 'plans'],
     ['Join New Plan', '/dashboard/new-plan', 'new'],
     ['Payment History', '/dashboard/payment-history', 'history'],

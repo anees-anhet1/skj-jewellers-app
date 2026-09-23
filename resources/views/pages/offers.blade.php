@@ -30,9 +30,22 @@
         @endforeach
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        @for($i=0;$i<8;$i++)
-        <x-product-card tag="Sale" />
-        @endfor
+        @forelse($offerProducts as $product)
+        <a href="{{ url('/product/'.$product->id) }}" class="block">
+            <x-product-card 
+                :name="$product->name" 
+                :price="$product->price" 
+                :image="$product->image"
+                tag="Sale"
+            >
+                {{ $product->category }}
+            </x-product-card>
+        </a>
+        @empty
+        <div class="col-span-2 lg:col-span-4 text-center py-12 text-ink-900/50 bg-gold-50/30 rounded-3xl border border-gold-100">
+            No products currently on sale.
+        </div>
+        @endforelse
     </div>
 </div>
 @endsection

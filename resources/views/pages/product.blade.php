@@ -1,33 +1,40 @@
 @extends('layouts.app')
-@section('title', 'Gold Premium Necklace · '.config('brand.name'))
+@section('title', $product->name . ' · '.config('brand.name'))
 @section('content')
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 grid md:grid-cols-2 gap-12">
     <div>
-        <div class="aspect-square rounded-3xl bg-gradient-to-br from-gold-50 to-gold-100 flex items-center justify-center mb-4">
-            <div class="w-40 h-40 rounded-full border-8 border-gold-300"></div>
+        <div class="aspect-square rounded-3xl bg-gradient-to-br from-gold-50 to-gold-100 flex items-center justify-center mb-4 overflow-hidden relative group">
+            @if($product->image)
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            @else
+                <img src="{{ asset('images/necklace.png') }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-60">
+            @endif
         </div>
-        <div class="grid grid-cols-4 gap-3">
-            @for($i=0;$i<4;$i++)
-            <div class="aspect-square rounded-xl bg-gold-50 border border-gold-100"></div>
-            @endfor
-        </div>
+        
+        <!-- Thumbnail gallery removed since there is only one product image -->
     </div>
+    
     <div>
-        <p class="section-subtitle">Necklace</p>
-        <h1 class="text-3xl font-serif font-bold mb-2">Gold Premium Necklace</h1>
-        <div class="flex items-center gap-3 mb-6">
-            <span class="text-2xl font-semibold text-ink-900">₹62,000</span>
-            <span class="text-ink-900/40 line-through">₹72,000</span>
-            <span class="text-sm text-green-600 font-medium">14% off</span>
+        <p class="section-subtitle uppercase tracking-widest">{{ $product->category }}</p>
+        <h1 class="text-3xl md:text-4xl font-serif font-bold mb-3 text-ink-900">{{ $product->name }}</h1>
+        
+        <div class="flex items-center gap-4 mb-6">
+            <span class="text-3xl font-semibold text-ink-900">₹{{ number_format((float)$product->price, 2) }}</span>
+            @if($product->is_featured)
+                <span class="text-xs font-semibold bg-gold-100 text-gold-700 px-3 py-1 rounded-full uppercase tracking-widest">Featured</span>
+            @endif
         </div>
-        <p class="text-sm text-ink-900/50 mb-6">MRP inclusive of all taxes</p>
-        <div class="flex gap-4 mb-8">
-            <a href="{{ url('/book-appointment') }}" class="btn-gold">Enquire Now</a>
-            <button class="btn-outline">♥ Wishlist</button>
+        
+        <p class="text-sm text-ink-900/50 mb-8 border-b border-gold-100 pb-6">MRP inclusive of all taxes. Free shipping on all orders.</p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <a href="{{ url('/book-appointment') }}" class="btn-gold flex-1 text-center py-3 text-sm tracking-wider">Book Showroom Visit</a>
+            <button class="btn-outline flex-1 py-3 text-sm tracking-wider hover:bg-ink-900 hover:text-white transition-colors">♥ Add to Wishlist</button>
         </div>
-        <div class="border-t border-gold-100 pt-6">
-            <h3 class="font-serif font-semibold mb-2">About the Product</h3>
-            <p class="text-sm text-ink-900/60 leading-relaxed">Exquisitely crafted with meticulous attention to detail, this piece blends traditional artistry with contemporary design — a timeless addition to your jewellery collection.</p>
+        
+        <div class="bg-gold-50/50 rounded-2xl p-6 border border-gold-100">
+            <h3 class="font-serif font-semibold mb-3 text-ink-900">Product Details</h3>
+            <p class="text-sm text-ink-900/70 leading-relaxed">{{ $product->description ?? 'Exquisitely crafted with meticulous attention to detail, this piece blends traditional artistry with contemporary design — a timeless addition to your jewellery collection.' }}</p>
         </div>
     </div>
 </div>

@@ -14,8 +14,16 @@ class OfferController extends Controller
         $offers = Offer::whereDate('valid_till', '>=', Carbon::today())
             ->latest()
             ->get();
+            
+        // Get featured products to act as "Offer Products"
+        $offerProducts = \App\Models\Product::where('is_featured', true)->inRandomOrder()->take(8)->get();
+        
+        // If no featured products, just get latest 8
+        if ($offerProducts->isEmpty()) {
+            $offerProducts = \App\Models\Product::latest()->take(8)->get();
+        }
 
-        return view('pages.offers', compact('offers'));
+        return view('pages.offers', compact('offers', 'offerProducts'));
     }
 
     // Admin page - show all offers
