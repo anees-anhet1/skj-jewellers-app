@@ -13,6 +13,12 @@
             <option {{ $product->category == 'Diamond' ? 'selected' : '' }}>Diamond</option>
             <option {{ $product->category == 'Platinum' ? 'selected' : '' }}>Platinum</option>
         </select>
+        <select name="collection_id" class="px-4 py-3 rounded-xl border border-gold-100">
+            <option value="">No Collection</option>
+            @foreach($collections as $collection)
+                <option value="{{ $collection->id }}" {{ $product->collection_id == $collection->id ? 'selected' : '' }}>{{ $collection->name }}</option>
+            @endforeach
+        </select>
         <input type="number" name="price" step="0.01" value="{{ $product->price }}" placeholder="Price" required class="px-4 py-3 rounded-xl border border-gold-100">
         <input type="text" name="weight" value="{{ $product->weight }}" placeholder="Weight (e.g. 10g)" class="px-4 py-3 rounded-xl border border-gold-100">
         <textarea name="description" placeholder="Description" class="px-4 py-3 rounded-xl border border-gold-100 md:col-span-2">{{ $product->description }}</textarea>

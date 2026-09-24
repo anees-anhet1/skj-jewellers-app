@@ -21,6 +21,12 @@
                 <option>Diamond</option>
                 <option>Platinum</option>
             </select>
+            <select name="collection_id" class="px-4 py-3 rounded-xl border border-gold-100">
+                <option value="">No Collection</option>
+                @foreach($collections as $collection)
+                    <option value="{{ $collection->id }}">{{ $collection->name }}</option>
+                @endforeach
+            </select>
             <input type="number" name="price" step="0.01" placeholder="Price" required
                 class="px-4 py-3 rounded-xl border border-gold-100">
             <input type="text" name="weight" placeholder="Weight (e.g. 10g)"

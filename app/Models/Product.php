@@ -13,6 +13,12 @@ class Product extends Model
         'weight',
         'description',
         'image',
-        'is_featured'
+        'is_featured',
+        'collection_id',
     ];
+
+    public function collection()
+    {
+        return $this->belongsTo(Collection::class);
+    }
 }

@@ -21,6 +21,11 @@ class ProductController extends Controller
             });
         }
 
+        // Collection Filter
+        if ($request->filled('collection_id')) {
+            $query->where('collection_id', $request->collection_id);
+        }
+
         // Category Filter
         // Note: For checkboxes, category could be an array. We'll handle both string and array just in case.
         if ($request->filled('category')) {
@@ -60,15 +65,16 @@ class ProductController extends Controller
 
     public function collectionsIndex()
     {
-        $categories = Product::select('category')->distinct()->pluck('category');
-        return view('pages.collections', compact('categories'));
+        $collections = \App\Models\Collection::all();
+        return view('pages.collections', compact('collections'));
     }
 
     // Admin Methods
     public function adminIndex()
     {
         $products = Product::orderBy('created_at', 'desc')->get();
-        return view('admin.products', compact('products'));
+        $collections = \App\Models\Collection::all();
+        return view('admin.products', compact('products', 'collections'));
     }
 
     public function store(Request $request)
@@ -78,6 +84,7 @@ class ProductController extends Controller
             'category' => 'required',
             'price' => 'required|numeric',
             'image' => 'nullable|image',
+            'collection_id' => 'nullable|exists:collections,id',
         ]);
 
         $data = $request->except('image');
@@ -95,7 +102,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.edit-product', compact('product'));
+        $collections = \App\Models\Collection::all();
+        return view('admin.edit-product', compact('product', 'collections'));
     }
 
     public function update(Request $request, $id)
@@ -107,6 +115,7 @@ class ProductController extends Controller
             'category' => 'required',
             'price' => 'required|numeric',
             'image' => 'nullable|image',
+            'collection_id' => 'nullable|exists:collections,id',
         ]);
 
         $data = $request->except('image');

@@ -8,6 +8,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\GoldRateController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CollectionController;
 
 
 
@@ -44,7 +45,11 @@ Route::get('/logout', [AuthController::class, 'logout']);
 // Customer dashboard (must be logged in)
 Route::middleware('auth')->group(function () {
 
-    Route::view('/dashboard', 'dashboard.index');
+    Route::get('/dashboard/wishlist', [App\Http\Controllers\WishlistController::class, 'index']);
+    Route::post('/wishlist/toggle', [App\Http\Controllers\WishlistController::class, 'toggle']);
+
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::post('/dashboard/my-plans/{id}/close', [DashboardController::class, 'closePlan']);
     Route::get('/dashboard/my-plans', [DashboardController::class, 'myPlans']);
     Route::get('/dashboard/my-plans/{id}', [DashboardController::class, 'planDetails']);
@@ -64,7 +69,16 @@ Route::middleware('auth')->group(function () {
 // Admin dashboard (must be admin)
 Route::middleware('admin')->group(function () {
 
-    Route::view('/admin', 'admin.index');
+    Route::get('/admin', function () {
+        $totalCustomers = \App\Models\User::where('role', '!=', 'admin')->count();
+        $newCustomersThisMonth = \App\Models\User::where('role', '!=', 'admin')->whereMonth('created_at', now()->month)->count();
+        $activePlans = \App\Models\UserPlan::where('status', 'active')->count();
+        $totalRevenue = \App\Models\Payment::where('status', 'success')->sum('amount');
+        $totalProducts = \App\Models\Product::count();
+        $latestRate = \App\Models\GoldRate::latest()->first();
+        $recentPayments = \App\Models\Payment::with('user')->latest()->take(5)->get();
+        return view('admin.index', compact('totalCustomers', 'newCustomersThisMonth', 'activePlans', 'totalRevenue', 'totalProducts', 'latestRate', 'recentPayments'));
+    });
     Route::view('/admin/customers', 'admin.customers');
     Route::get('/admin/plans', [PlanController::class, 'adminIndex']);
     Route::post('/admin/plans', [PlanController::class, 'store']);
@@ -77,8 +91,10 @@ Route::middleware('admin')->group(function () {
     Route::put('/admin/products/{id}', [ProductController::class, 'update']);
     Route::get('/admin/products/{id}/delete', [ProductController::class, 'destroy']);
 
-
-
+    // Collections
+    Route::get('/admin/collections', [CollectionController::class, 'adminIndex']);
+    Route::post('/admin/collections', [CollectionController::class, 'store']);
+    Route::get('/admin/collections/{id}/delete', [CollectionController::class, 'destroy']);
     // Offers
     Route::get('/admin/offers', [OfferController::class, 'adminIndex']);
 

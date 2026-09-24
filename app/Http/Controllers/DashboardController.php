@@ -5,12 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\Plan;
 use App\Models\UserPlan;
 use App\Models\Payment;
+use App\Models\GoldRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    // Dynamic Dashboard Home
+    public function index()
+    {
+        $userId = Auth::id();
+        $activePlans = UserPlan::where('user_id', $userId)->where('status', 'active')->count();
+        $closedPlans = UserPlan::where('user_id', $userId)->whereIn('status', ['cancelled', 'completed'])->count();
+        $totalPaid = Payment::where('user_id', $userId)->where('status', 'success')->sum('amount');
+        
+        // Calculate gold weight: total_paid / current 22k rate per gram
+        $latestRate = GoldRate::latest()->first();
+        $goldWeight = 0;
+        if ($latestRate && $latestRate->rate_22k > 0) {
+            $goldWeight = round($totalPaid / $latestRate->rate_22k, 2);
+        }
+        
+        // Get the user's latest active plan for the detail card
+        $latestPlan = UserPlan::where('user_id', $userId)->where('status', 'active')->with('plan')->latest()->first();
+        
+        return view('dashboard.index', compact('activePlans', 'closedPlans', 'totalPaid', 'goldWeight', 'latestRate', 'latestPlan'));
+    }
+
     // Show the user's active plans
     public function myPlans()
     {
