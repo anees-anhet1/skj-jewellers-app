@@ -7,9 +7,12 @@
             <tr><th class="text-left p-4">ID</th><th class="text-left p-4">Name</th><th class="text-left p-4">Phone</th><th class="text-left p-4">Active Plans</th><th class="text-left p-4">Status</th></tr>
         </thead>
         <tbody>
-            @foreach(['AZ 0658'=>'Ravishankar D','AZ 0659'=>'Sasikumar','AZ 0660'=>'Priya M'] as $id => $name)
+            @foreach($customers as $customer)
             <tr class="border-t border-gold-50">
-                <td class="p-4">{{ $id }}</td><td class="p-4">{{ $name }}</td><td class="p-4">+91 98765 43210</td><td class="p-4">2</td>
+                <td class="p-4">AZ {{ str_pad($customer->id, 4, '0', STR_PAD_LEFT) }}</td>
+                <td class="p-4">{{ $customer->name }}</td>
+                <td class="p-4">{{ $customer->phone ?? 'N/A' }}</td>
+                <td class="p-4">{{ $customer->plans_count }}</td>
                 <td class="p-4"><span class="text-xs bg-green-50 text-green-600 px-3 py-1 rounded-full">Active</span></td>
             </tr>
             @endforeach

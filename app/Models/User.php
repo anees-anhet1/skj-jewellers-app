@@ -49,4 +49,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function plans()
+    {
+        return $this->hasMany(UserPlan::class);
+    }
 }

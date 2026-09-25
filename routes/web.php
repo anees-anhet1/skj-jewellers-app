@@ -80,7 +80,12 @@ Route::middleware('admin')->group(function () {
         $recentPayments = \App\Models\Payment::with('user')->latest()->take(5)->get();
         return view('admin.index', compact('totalCustomers', 'newCustomersThisMonth', 'activePlans', 'totalRevenue', 'totalProducts', 'latestRate', 'recentPayments'));
     });
-    Route::view('/admin/customers', 'admin.customers');
+    Route::get('/admin/customers', function () {
+        $customers = \App\Models\User::where('role', '!=', 'admin')->withCount(['plans' => function($query) {
+            $query->where('status', 'active');
+        }])->get();
+        return view('admin.customers', compact('customers'));
+    });
     Route::get('/admin/plans', [PlanController::class, 'adminIndex']);
     Route::post('/admin/plans', [PlanController::class, 'store']);
     Route::get('/admin/plans/{id}/delete', [PlanController::class, 'destroy']);
