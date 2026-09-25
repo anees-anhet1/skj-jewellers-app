@@ -2,11 +2,11 @@
 @section('title', 'Gold Savings Scheme · '.config('brand.name'))
 @section('content')
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
-    <x-section-heading eyebrow="Save Smart" title="Gold Savings Scheme" />
+    <x-section-heading eyebrow="Save Smart" title="Gold Savings Scheme" center />
     
-    <div class="grid md:grid-cols-3 gap-8 mb-16">
+    <div class="flex flex-wrap justify-center gap-8 mb-16">
         @forelse($plans as $plan)
-        <div class="card p-8 border-2 border-transparent hover:border-gold-300 transition-colors duration-300 relative overflow-hidden group">
+        <div class="card p-8 border-2 border-transparent hover:border-gold-300 transition-colors duration-300 relative overflow-hidden group w-full sm:w-[360px] text-left">
             <div class="absolute top-0 right-0 w-24 h-24 bg-gold-50 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
             <h3 class="font-serif text-2xl font-bold text-ink-900 mb-2">{{ $plan->name }}</h3>
             <p class="text-ink-900/60 mb-6 line-clamp-2">{{ $plan->short_description }}</p>

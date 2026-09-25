@@ -8,20 +8,24 @@ use Carbon\Carbon;
 
 class OfferController extends Controller
 {
-    // Customer page - show only active/non-expired offers
-    public function userIndex()
+    public function userIndex(Request $request)
     {
         $offers = Offer::whereDate('valid_till', '>=', Carbon::today())
             ->latest()
             ->get();
             
-        // Get featured products to act as "Offer Products"
-        $offerProducts = \App\Models\Product::where('is_featured', true)->inRandomOrder()->take(8)->get();
+        $query = \App\Models\Product::query();
         
-        // If no featured products, just get latest 8
-        if ($offerProducts->isEmpty()) {
-            $offerProducts = \App\Models\Product::latest()->take(8)->get();
+        $hasFeatured = \App\Models\Product::where('is_featured', true)->exists();
+        if ($hasFeatured) {
+            $query->where('is_featured', true);
         }
+        
+        if ($request->filled('category') && $request->category !== 'All') {
+            $query->where('category', $request->category);
+        }
+        
+        $offerProducts = $query->inRandomOrder()->take(8)->get();
 
         return view('pages.offers', compact('offers', 'offerProducts'));
     }

@@ -17,9 +17,9 @@
         <a href="{{ url('/dashboard/notifications') }}" class="w-10 h-10 rounded-full bg-gold-50 hover:bg-gold-100 transition flex items-center justify-center text-gold-600">🔔</a>
         <div class="relative" x-data="{ open: false }">
             <button @click="open = !open" @click.outside="open = false"
-                class="w-10 h-10 rounded-full border border-gold-300 bg-gold-100 text-gold-700 font-semibold text-sm flex items-center justify-center"
-                title="{{ config('brand.name') }}">
-                VA
+                class="w-10 h-10 rounded-full border border-gold-300 bg-gold-100 text-gold-700 font-semibold text-lg flex items-center justify-center uppercase"
+                title="{{ auth()->user()->name ?? 'User' }}">
+                {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
             </button>
 
             <div x-show="open" x-cloak

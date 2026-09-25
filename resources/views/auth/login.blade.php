@@ -3,6 +3,10 @@
 <div class="max-w-md mx-auto mt-10">
     <h2 class="font-serif font-semibold text-xl mb-4">Login</h2>
 
+    @if(session('success'))
+        <p class="text-green-600 mb-3">{{ session('success') }}</p>
+    @endif
+
     @if(session('error'))
         <p class="text-red-600 mb-3">{{ session('error') }}</p>
     @endif

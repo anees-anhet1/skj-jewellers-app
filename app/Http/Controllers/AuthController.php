@@ -24,14 +24,24 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|numeric|digits:10',
+            'address' => 'required|string|max:1000',
+            'password' => 'required|string|min:8',
+        ]);
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => $request->password, // Password hashing is handled by User model cast
+            'phone' => $request->phone,
+            'address' => $request->address,
             'role' => 'user',
         ]);
 
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Registration successful! Please login.');
     }
 
     public function logout(Request $request)

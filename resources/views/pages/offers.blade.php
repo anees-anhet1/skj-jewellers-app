@@ -24,9 +24,12 @@
     </div>
 
     <x-section-heading eyebrow="Offers" title="Offer Products" />
-    <div class="flex gap-2 mb-8 text-xs">
+    <div class="flex flex-wrap gap-2 mb-8 text-xs">
         @foreach(['All','Gold','Silver','Diamond','Platinum'] as $c)
-        <button class="px-4 py-2 rounded-full border border-gold-200">{{ $c }}</button>
+        <a href="{{ url('/offers?category=' . $c) }}" 
+           class="px-4 py-2 rounded-full border border-gold-200 transition-colors {{ request('category', 'All') == $c ? 'bg-gold-500 text-white border-gold-500 hover:bg-gold-600' : 'hover:bg-gold-50 text-ink-900' }}">
+            {{ $c }}
+        </a>
         @endforeach
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">

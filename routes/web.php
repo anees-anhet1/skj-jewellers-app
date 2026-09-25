@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/closed-plans', [DashboardController::class, 'closedPlans']);
     Route::view('/dashboard/notifications', 'dashboard.notifications');
     Route::view('/dashboard/profile', 'dashboard.profile');
+    Route::post('/dashboard/profile', [DashboardController::class, 'updateProfile']);
 
 });
 

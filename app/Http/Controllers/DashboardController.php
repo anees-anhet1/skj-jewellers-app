@@ -167,4 +167,22 @@ class DashboardController extends Controller
 
         return back()->with('success', 'Plan has been successfully closed. Please visit the store for any settlement.');
     }
+
+    // Update Profile
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|numeric|digits:10',
+            'address' => 'required|string|max:1000',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->save();
+
+        return back()->with('success', 'Profile updated successfully!');
+    }
 }
