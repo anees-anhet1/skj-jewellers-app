@@ -14,9 +14,14 @@
             </div>
             @endforeach
         </div>
-        <div class="md:col-span-2 rounded-3xl bg-gold-50 border border-gold-100 flex flex-col items-center justify-center min-h-[420px] px-6 text-center">
-            <p class="font-serif font-semibold text-ink-900 mb-1">Chickpet, Bengaluru</p>
-            <p class="text-ink-900/40 text-sm">[ Map placeholder — Chickpet, Bengaluru ]</p>
+        <div class="md:col-span-2 rounded-3xl bg-gold-50 border border-gold-100 overflow-hidden relative min-h-[420px]">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0837583625475!2d77.57529431482187!3d12.96649799085871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae16075904fc49%3A0x671168051a8af3c3!2sChickpet%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1689255000000!5m2!1sen!2sin" 
+                class="absolute inset-0 w-full h-full border-0" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
         </div>
     </div>
 </div>
