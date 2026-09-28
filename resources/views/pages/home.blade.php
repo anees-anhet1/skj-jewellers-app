@@ -51,8 +51,9 @@
                     <x-product-card 
                         :name="$product->name" 
                         :price="$product->price" 
+                        :mrp="$product->mrp"
                         :image="$product->image"
-                        :tag="$product->is_featured ? 'Featured' : 'New'"
+                        :tag="$product->is_featured ? 'Featured' : ($product->mrp > $product->price ? 'Sale' : 'New')"
                     >
                         {{ $product->category }}
                     </x-product-card>

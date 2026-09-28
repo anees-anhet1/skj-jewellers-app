@@ -20,6 +20,7 @@
             @endforeach
         </select>
         <input type="number" name="price" step="0.01" value="{{ $product->price }}" placeholder="Price" required class="px-4 py-3 rounded-xl border border-gold-100">
+        <input type="number" name="mrp" step="0.01" value="{{ $product->mrp }}" placeholder="MRP (Optional, for Sale items)" class="px-4 py-3 rounded-xl border border-gold-100">
         <input type="text" name="weight" value="{{ $product->weight }}" placeholder="Weight (e.g. 10g)" class="px-4 py-3 rounded-xl border border-gold-100">
         <textarea name="description" placeholder="Description" class="px-4 py-3 rounded-xl border border-gold-100 md:col-span-2">{{ $product->description }}</textarea>
         
@@ -33,8 +34,13 @@
             <input type="file" name="image" accept="image/*" class="px-4 py-3 rounded-xl border border-gold-100 w-full">
         </div>
         
-        <div class="flex items-center gap-2">
-            <input type="checkbox" name="is_featured" value="1" {{ $product->is_featured ? 'checked' : '' }}> <label class="text-sm">Featured</label>
+        <div class="flex items-center gap-6">
+            <label class="flex items-center gap-2 cursor-pointer text-sm">
+                <input type="checkbox" name="is_featured" value="1" class="accent-gold-600" {{ $product->is_featured ? 'checked' : '' }}> Featured
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm">
+                <input type="checkbox" name="is_new_arrival" value="1" class="accent-gold-600" {{ $product->is_new_arrival ? 'checked' : '' }}> New Arrival
+            </label>
         </div>
         <div class="md:col-span-2 flex gap-3 mt-4">
             <button type="submit" class="btn-gold !py-2 !px-6 text-sm">Update Product</button>

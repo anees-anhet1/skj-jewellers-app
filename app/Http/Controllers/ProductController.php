@@ -83,12 +83,14 @@ class ProductController extends Controller
             'name' => 'required',
             'category' => 'required',
             'price' => 'required|numeric',
+            'mrp' => 'nullable|numeric',
             'image' => 'nullable|image',
             'collection_id' => 'nullable|exists:collections,id',
         ]);
 
         $data = $request->except('image');
         $data['is_featured'] = $request->has('is_featured');
+        $data['is_new_arrival'] = $request->has('is_new_arrival');
         
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
@@ -114,12 +116,14 @@ class ProductController extends Controller
             'name' => 'required',
             'category' => 'required',
             'price' => 'required|numeric',
+            'mrp' => 'nullable|numeric',
             'image' => 'nullable|image',
             'collection_id' => 'nullable|exists:collections,id',
         ]);
 
         $data = $request->except('image');
         $data['is_featured'] = $request->has('is_featured');
+        $data['is_new_arrival'] = $request->has('is_new_arrival');
 
         if ($request->hasFile('image')) {
             if ($product->image) {

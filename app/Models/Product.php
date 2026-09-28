@@ -10,10 +10,12 @@ class Product extends Model
         'name',
         'category',
         'price',
+        'mrp',
         'weight',
         'description',
         'image',
         'is_featured',
+        'is_new_arrival',
         'collection_id',
     ];
 

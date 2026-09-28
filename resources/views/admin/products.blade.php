@@ -29,13 +29,20 @@
             </select>
             <input type="number" name="price" step="0.01" placeholder="Price" required
                 class="px-4 py-3 rounded-xl border border-gold-100">
+            <input type="number" name="mrp" step="0.01" placeholder="MRP (Optional, for Sale items)"
+                class="px-4 py-3 rounded-xl border border-gold-100">
             <input type="text" name="weight" placeholder="Weight (e.g. 10g)"
                 class="px-4 py-3 rounded-xl border border-gold-100">
             <textarea name="description" placeholder="Description"
                 class="px-4 py-3 rounded-xl border border-gold-100 md:col-span-2"></textarea>
             <input type="file" name="image" accept="image/*" class="px-4 py-3 rounded-xl border border-gold-100">
-            <div class="flex items-center gap-2">
-                <input type="checkbox" name="is_featured" value="1"> <label class="text-sm">Featured</label>
+            <div class="flex items-center gap-6">
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                    <input type="checkbox" name="is_featured" value="1" class="accent-gold-600"> Featured
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                    <input type="checkbox" name="is_new_arrival" value="1" class="accent-gold-600"> New Arrival
+                </label>
             </div>
             <div class="md:col-span-2">
                 <button type="submit" class="btn-gold !py-2 !px-6 text-sm">Save Product</button>
