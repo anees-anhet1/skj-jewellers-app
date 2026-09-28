@@ -27,9 +27,9 @@
                 $cleanPrice = preg_replace('/[^0-9.]/', '', $price);
                 $cleanMrp = $mrp ? preg_replace('/[^0-9.]/', '', $mrp) : null;
             @endphp
-            <span class="font-semibold text-ink-900">₹{{ number_format((float)$cleanPrice, 2) }}</span>
+            <span class="font-semibold text-ink-900">₹{{ number_format((float)$cleanPrice) }}</span>
             @if($cleanMrp && $cleanMrp > $cleanPrice)
-                <span class="text-xs text-ink-900/50 line-through">₹{{ number_format((float)$cleanMrp, 2) }}</span>
+                <span class="text-xs text-ink-900/50 line-through">₹{{ number_format((float)$cleanMrp) }}</span>
             @endif
         </div>
     </div>

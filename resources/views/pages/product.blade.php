@@ -22,9 +22,9 @@
             <h1 class="text-3xl md:text-4xl font-serif font-bold mb-3 text-ink-900">{{ $product->name }}</h1>
 
             <div class="flex items-center gap-4 mb-6 flex-wrap">
-                <span class="text-3xl font-semibold text-ink-900">₹{{ number_format((float) $product->price, 2) }}</span>
+                <span class="text-3xl font-semibold text-ink-900">₹{{ number_format((float) $product->price) }}</span>
                 @if($product->mrp > $product->price)
-                    <span class="text-xl text-ink-900/40 line-through">₹{{ number_format((float) $product->mrp, 2) }}</span>
+                    <span class="text-xl text-ink-900/40 line-through">₹{{ number_format((float) $product->mrp) }}</span>
                 @endif
                 
                 <div class="flex gap-2">
