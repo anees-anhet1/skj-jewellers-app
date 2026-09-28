@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title', 'Store Locator · '.config('brand.name'))
 @section('content')
-<div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
-    <x-section-heading eyebrow="Visit" title="Our Store" />
-    <p class="text-ink-900/60 text-center max-w-2xl mx-auto mb-10 -mt-4">Visit us at our showroom in Chickpet, Bengaluru.</p>
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-10">
+    <x-section-heading eyebrow="Visit" title="Our Store" class="mb-4" />
+    <p class="text-ink-900/60 mb-8">Visit us at our showroom in Chickpet, Bengaluru.</p>
     <div class="grid md:grid-cols-3 gap-8">
         <div class="md:col-span-1 space-y-4">
             @foreach(config('brand.stores') as $store)
