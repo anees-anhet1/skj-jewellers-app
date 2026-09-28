@@ -14,7 +14,7 @@ use App\Http\Controllers\CollectionController;
 
 // Public pages
 Route::get('/', function () {
-    $newArrivals = \App\Models\Product::latest()->take(4)->get();
+    $newArrivals = \App\Models\Product::where('is_featured', true)->latest()->take(4)->get();
     $collections = \App\Models\Collection::latest()->take(8)->get();
     return view('pages.home', compact('newArrivals', 'collections'));
 });
