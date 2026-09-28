@@ -21,12 +21,23 @@
             <p class="section-subtitle uppercase tracking-widest">{{ $product->category }}</p>
             <h1 class="text-3xl md:text-4xl font-serif font-bold mb-3 text-ink-900">{{ $product->name }}</h1>
 
-            <div class="flex items-center gap-4 mb-6">
+            <div class="flex items-center gap-4 mb-6 flex-wrap">
                 <span class="text-3xl font-semibold text-ink-900">₹{{ number_format((float) $product->price, 2) }}</span>
-                @if($product->is_featured)
-                    <span
-                        class="text-xs font-semibold bg-gold-100 text-gold-700 px-3 py-1 rounded-full uppercase tracking-widest">Featured</span>
+                @if($product->mrp > $product->price)
+                    <span class="text-xl text-ink-900/40 line-through">₹{{ number_format((float) $product->mrp, 2) }}</span>
                 @endif
+                
+                <div class="flex gap-2">
+                    @if($product->is_featured)
+                        <span class="text-[10px] font-semibold bg-ink-900 text-white px-3 py-1 rounded-full uppercase tracking-widest shadow">Featured</span>
+                    @endif
+                    @if($product->mrp > $product->price)
+                        <span class="text-[10px] font-semibold bg-red-600 text-white px-3 py-1 rounded-full uppercase tracking-widest shadow">Sale</span>
+                    @endif
+                    @if($product->is_new_arrival)
+                        <span class="text-[10px] font-semibold bg-gold-500 text-white px-3 py-1 rounded-full uppercase tracking-widest shadow">New</span>
+                    @endif
+                </div>
             </div>
 
             <p class="text-sm text-ink-900/50 mb-8 border-b border-gold-100 pb-6">MRP inclusive of all taxes. Free shipping
