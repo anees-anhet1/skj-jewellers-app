@@ -23,28 +23,22 @@
 </section>
 
 <section class="max-w-7xl mx-auto px-4 md:px-8 py-20">
-    <x-section-heading eyebrow="Shop by category" title="Explore Our Collections" center />
+    <x-section-heading eyebrow="Curated For You" title="Explore Our Collections" center />
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        @php
-        $categories = [
-            ['Necklaces', 'necklace.png'],
-            ['Earrings', 'earrings.png'],
-            ['Bangles', 'bangles.png'],
-            ['Gold Coins', 'gold-coins.png'],
-            ['Bridal Sets', 'hero-jewellery.png'],
-            ['Chains', 'necklace.png'],
-            ['Diamond', 'earrings.png'],
-            ['Platinum', 'bangles.png'],
-        ];
-        @endphp
-        @foreach($categories as [$cat, $img])
-        <a href="{{ url('/collections') }}" class="group text-center">
+        @forelse($collections as $col)
+        <a href="{{ url('/shop?collection_id=' . $col->id) }}" class="group text-center">
             <div class="aspect-square rounded-2xl bg-gold-50 group-hover:bg-gold-100 flex items-center justify-center mb-3 transition overflow-hidden border border-gold-100 shadow-sm">
-                <img src="{{ asset('images/' . $img) }}" alt="{{ $cat }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                @if($col->image)
+                    <img src="{{ asset('storage/' . $col->image) }}" alt="{{ $col->name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                @else
+                    <div class="w-full h-full flex items-center justify-center text-gold-300"><i class="bi bi-images text-4xl"></i></div>
+                @endif
             </div>
-            <p class="font-medium text-sm text-ink-900 group-hover:text-gold-600 transition">{{ $cat }}</p>
+            <p class="font-medium text-sm text-ink-900 group-hover:text-gold-600 transition">{{ $col->name }}</p>
         </a>
-        @endforeach
+        @empty
+            <p class="text-ink-900/50 col-span-full text-center py-8">More collections coming soon.</p>
+        @endforelse
     </div>
 </section>
 
@@ -52,10 +46,20 @@
     <div class="max-w-7xl mx-auto px-4 md:px-8">
         <x-section-heading eyebrow="New Arrivals" title="Handpicked For You" center />
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            <x-product-card name="Royal Temple Gold Necklace" price="₹1,85,000" mrp="₹2,05,000" tag="Best Seller" image="hero-jewellery.png">Necklaces</x-product-card>
-            <x-product-card name="22K Traditional Choker" price="₹62,000" mrp="₹72,000" tag="New" image="necklace.png">Necklaces</x-product-card>
-            <x-product-card name="Heritage Jhumka Earrings" price="₹42,500" mrp="₹48,000" tag="Trending" image="earrings.png">Earrings</x-product-card>
-            <x-product-card name="Antique Filigree Bangles" price="₹95,000" mrp="₹1,10,000" tag="Exclusive" image="bangles.png">Bangles</x-product-card>
+            @forelse($newArrivals as $product)
+                <a href="{{ url('/product/'.$product->id) }}" class="block">
+                    <x-product-card 
+                        :name="$product->name" 
+                        :price="$product->price" 
+                        :image="$product->image"
+                        :tag="$product->is_featured ? 'Featured' : 'New'"
+                    >
+                        {{ $product->category }}
+                    </x-product-card>
+                </a>
+            @empty
+                <p class="text-white/60 col-span-4 text-center">No new arrivals available right now.</p>
+            @endforelse
         </div>
     </div>
 </section>

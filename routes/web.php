@@ -13,7 +13,11 @@ use App\Http\Controllers\CollectionController;
 
 
 // Public pages
-Route::view('/', 'pages.home');
+Route::get('/', function () {
+    $newArrivals = \App\Models\Product::latest()->take(4)->get();
+    $collections = \App\Models\Collection::latest()->take(8)->get();
+    return view('pages.home', compact('newArrivals', 'collections'));
+});
 Route::get('/shop', [ProductController::class, 'shopIndex']);
 Route::get('/product/{id}', [ProductController::class, 'show']);
 Route::get('/collections', [ProductController::class, 'collectionsIndex']);

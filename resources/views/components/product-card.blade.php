@@ -6,7 +6,10 @@
         @endif
         
         @if($image)
-            <img src="{{ asset('storage/' . $image) }}" alt="{{ $name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            @php
+                $imgSrc = str_contains($image, '/') ? asset('storage/' . $image) : asset('images/' . $image);
+            @endphp
+            <img src="{{ $imgSrc }}" alt="{{ $name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
         @else
             <img src="{{ asset('images/necklace.png') }}" alt="{{ $name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-60">
         @endif
@@ -20,7 +23,14 @@
         <p class="text-xs text-gold-500 uppercase tracking-wider mb-1">{{ $slot->isEmpty() ? 'Category' : $slot }}</p>
         <h3 class="font-serif font-semibold text-ink-900 mb-1 truncate">{{ $name }}</h3>
         <div class="flex items-center gap-2">
-            <span class="font-semibold text-ink-900">₹{{ number_format((float)$price, 2) }}</span>
+            @php
+                $cleanPrice = preg_replace('/[^0-9.]/', '', $price);
+                $cleanMrp = $mrp ? preg_replace('/[^0-9.]/', '', $mrp) : null;
+            @endphp
+            <span class="font-semibold text-ink-900">₹{{ number_format((float)$cleanPrice, 2) }}</span>
+            @if($cleanMrp && $cleanMrp > $cleanPrice)
+                <span class="text-xs text-ink-900/50 line-through">₹{{ number_format((float)$cleanMrp, 2) }}</span>
+            @endif
         </div>
     </div>
 </div>
