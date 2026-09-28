@@ -16,9 +16,14 @@ class OfferController extends Controller
             
         $query = \App\Models\Product::query();
         
-        $hasFeatured = \App\Models\Product::where('is_featured', true)->exists();
-        if ($hasFeatured) {
-            $query->where('is_featured', true);
+        $hasSale = \App\Models\Product::whereColumn('mrp', '>', 'price')->exists();
+        if ($hasSale) {
+            $query->whereColumn('mrp', '>', 'price');
+        } else {
+            $hasFeatured = \App\Models\Product::where('is_featured', true)->exists();
+            if ($hasFeatured) {
+                $query->where('is_featured', true);
+            }
         }
         
         if ($request->filled('category') && $request->category !== 'All') {
