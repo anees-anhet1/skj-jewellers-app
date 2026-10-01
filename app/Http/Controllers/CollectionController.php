@@ -43,4 +43,33 @@ class CollectionController extends Controller
 
         return back()->with('success', 'Collection deleted successfully.');
     }
+
+    public function edit($id)
+    {
+        $collection = Collection::findOrFail($id);
+        return view('admin.edit-collection', compact('collection'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+            'image' => 'nullable|image',
+        ]);
+
+        $collection = Collection::findOrFail($id);
+        $data = $request->only('name', 'description');
+
+        if ($request->hasFile('image')) {
+            if ($collection->image) {
+                Storage::disk('public')->delete($collection->image);
+            }
+            $data['image'] = $request->file('image')->store('collections', 'public');
+        }
+
+        $collection->update($data);
+
+        return redirect('/admin/collections')->with('success', 'Collection updated successfully.');
+    }
 }

@@ -80,21 +80,21 @@
                 @endif
             </div>
 
-            <div class="flex gap-2">
+            <div class="flex flex-col gap-2 w-28">
 
                 <a
                     href="/admin/offers/{{ $offer->id }}/edit"
-                    class="btn-gold !py-2 text-sm"
+                    class="w-full text-xs text-center text-gold-700 bg-gold-50 hover:bg-gold-100 py-2.5 rounded-lg font-medium transition"
                 >
-                    Edit
+                    <i class="bi bi-pencil me-1"></i> Edit
                 </a>
 
-                <a
-                    href="/admin/offers/{{ $offer->id }}/delete"
-                    class="btn-outline !py-2 text-sm"
-                >
-                    Delete
-                </a>
+                <form method="POST" action="/admin/offers/{{ $offer->id }}/delete" class="block" onsubmit="return confirm('Delete this offer?')">
+                    @csrf
+                    <button type="submit" class="w-full text-xs text-center text-red-600 bg-red-50 hover:bg-red-100 py-2.5 rounded-lg font-medium transition">
+                        <i class="bi bi-trash me-1"></i> Delete
+                    </button>
+                </form>
 
             </div>
 

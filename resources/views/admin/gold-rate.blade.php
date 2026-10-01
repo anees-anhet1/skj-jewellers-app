@@ -62,6 +62,7 @@
                 <th class="text-left py-2">24K</th>
                 <th class="text-left py-2">22K</th>
                 <th class="text-left py-2">Silver</th>
+                <th class="text-left py-2">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -71,6 +72,12 @@
                 <td class="py-2">₹{{ number_format($h->rate_24k, 2) }}</td>
                 <td class="py-2">₹{{ number_format($h->rate_22k, 2) }}</td>
                 <td class="py-2">₹{{ number_format($h->rate_silver, 2) }}</td>
+                <td class="py-2">
+                    <form method="POST" action="{{ url('/admin/gold-rate/' . $h->id . '/delete') }}" onsubmit="return confirm('Delete this rate entry?')" class="inline">
+                        @csrf
+                        <button type="submit" class="text-xs text-red-500 hover:underline">Delete</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

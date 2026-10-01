@@ -3,23 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Http\Requests\StoreAppointmentRequest;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    // Customer submits the form (public, no login needed)
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'email' => 'required|email',
-            'store' => 'required|string',
-            'appointment_date' => 'required|date',
-            'message' => 'nullable|string',
-        ]);
+        $product = null;
+        if ($request->has('product_id')) {
+            $product = \App\Models\Product::find($request->product_id);
+        }
+        return view('pages.book-appointment', compact('product'));
+    }
 
-        Appointment::create($request->only('name', 'phone', 'email', 'store', 'appointment_date', 'message'));
+    // Customer submits the form (public, no login needed)
+    public function store(StoreAppointmentRequest $request)
+    {
+        Appointment::create($request->validated());
 
         return back()->with('success', 'Appointment request sent! We will contact you shortly.');
     }
@@ -27,7 +28,14 @@ class AppointmentController extends Controller
     // Admin views all requests
     public function adminIndex()
     {
-        $appointments = Appointment::latest()->get();
+        $appointments = Appointment::with('product')->latest()->get();
         return view('admin.appointments', compact('appointments'));
+    }
+
+    // Admin deletes an appointment
+    public function destroy($id)
+    {
+        Appointment::findOrFail($id)->delete();
+        return back()->with('success', 'Appointment deleted.');
     }
 }

@@ -9,6 +9,10 @@ class Appointment extends Model
 {
      use HasFactory;
 
-    protected $fillable = ['name', 'phone', 'email', 'store', 'appointment_date', 'message'];
+    protected $fillable = ['name', 'phone', 'email', 'store', 'appointment_date', 'message', 'product_id'];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

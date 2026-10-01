@@ -18,7 +18,7 @@ $links = [
     
     <div class="p-8 pb-6 border-b border-white/5 relative z-10">
         <a href="{{ url('/admin') }}" class="block">
-            <div class="font-serif text-2xl font-bold tracking-widest text-gold-400">V. ANAND<span class="text-white">.</span></div>
+            <div class="font-serif text-2xl font-bold tracking-widest text-gold-400">V. ANAND</div>
             <div class="text-[10px] tracking-[0.4em] text-white/40 uppercase mt-1">Admin Portal</div>
         </a>
     </div>
@@ -34,12 +34,17 @@ $links = [
     </nav>
     
     <div class="p-6 border-t border-white/5 relative z-10">
-        <div class="bg-gradient-to-br from-gold-400/10 to-gold-500/5 border border-gold-500/20 rounded-xl p-4 flex items-start gap-3">
-            <i class="bi bi-shield-check text-gold-400 text-xl"></i>
-            <div>
-                <h4 class="text-sm font-medium text-white mb-1">Secure Session</h4>
-                <p class="text-[10px] text-white/50 leading-relaxed">Connected to 256-bit encrypted portal.</p>
+        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex flex-shrink-0 items-center justify-center text-white font-serif font-bold shadow-md">
+                AD
             </div>
+            <div class="flex-1 min-w-0">
+                <h4 class="text-sm font-medium text-white truncate">Administrator</h4>
+                <p class="text-[10px] text-white/50 truncate">{{ auth()->user()->email ?? 'admin@vanand.com' }}</p>
+            </div>
+            <a href="{{ url('/logout') }}" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center hover:bg-red-500 hover:text-white transition flex-shrink-0" title="Logout">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
         </div>
     </div>
 </aside>

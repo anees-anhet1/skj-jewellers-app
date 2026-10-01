@@ -39,4 +39,11 @@ class GoldRateController extends Controller
         $rate = GoldRate::latest()->first();
         return view('pages.gold-rate', compact('rate'));
     }
+
+    // Delete a rate entry
+    public function destroy($id)
+    {
+        GoldRate::findOrFail($id)->delete();
+        return back()->with('success', 'Rate entry deleted.');
+    }
 }

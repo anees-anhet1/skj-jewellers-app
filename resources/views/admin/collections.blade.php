@@ -59,7 +59,18 @@
                         <div class="flex-1 min-w-0">
                             <h4 class="font-semibold text-ink-900 truncate">{{ $collection->name }}</h4>
                             <p class="text-xs text-ink-900/50 mt-1 mb-2">{{ $collection->products->count() }} Products</p>
-                            <a href="{{ url('/admin/collections/'.$collection->id.'/delete') }}" onclick="return confirm('Delete this collection?')" class="text-xs text-red-500 hover:text-red-700 font-medium">Delete</a>
+                            <div class="flex gap-2">
+                                <a href="{{ url('/admin/collections/'.$collection->id.'/edit') }}" 
+                                   class="flex-1 text-xs text-center text-gold-700 bg-gold-50 hover:bg-gold-100 py-1.5 rounded font-medium transition">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form method="POST" action="{{ url('/admin/collections/'.$collection->id.'/delete') }}" onsubmit="return confirm('Delete this collection?')" class="flex-1 block">
+                                    @csrf
+                                    <button type="submit" class="w-full text-xs text-center text-red-600 bg-red-50 hover:bg-red-100 py-1.5 rounded font-medium transition">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     @endforeach

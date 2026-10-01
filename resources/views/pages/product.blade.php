@@ -44,7 +44,7 @@
                 on all orders.</p>
 
             <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                <a href="{{ url('/book-appointment') }}"
+                <a href="{{ url('/book-appointment' . ($product ? '?product_id='.$product->id : '')) }}"
                     class="btn-gold flex-1 text-center py-3 text-sm tracking-wider">Book Showroom Visit</a>
                 @auth
                     <form action="{{ url('/wishlist/toggle') }}" method="POST" class="inline">

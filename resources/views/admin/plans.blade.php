@@ -41,9 +41,17 @@
                     <div class="flex justify-between"><span class="text-ink-900/50">Min. Installment</span> <span
                             class="font-medium">₹{{ number_format($plan->minimum_amount) }}</span></div>
                 </div>
-                <div class="flex gap-2 border-t border-gold-100 pt-4">
-                    <a href="{{ url('/admin/plans/' . $plan->id . '/delete') }}" onclick="return confirm('Delete this plan?')"
-                        class="text-xs text-red-500 hover:underline">Delete Plan</a>
+                <div class="grid grid-cols-2 gap-2 border-t border-gold-50 pt-4 mt-2">
+                    <a href="{{ url('/admin/plans/' . $plan->id . '/edit') }}" 
+                        class="text-xs text-center text-gold-700 bg-gold-50 hover:bg-gold-100 py-2 rounded-lg font-medium transition">
+                        <i class="bi bi-pencil me-1"></i> Edit
+                    </a>
+                    <form method="POST" action="{{ url('/admin/plans/' . $plan->id . '/delete') }}" onsubmit="return confirm('Delete this plan?')" class="block">
+                        @csrf
+                        <button type="submit" class="w-full text-xs text-center text-red-600 bg-red-50 hover:bg-red-100 py-2 rounded-lg font-medium transition">
+                            <i class="bi bi-trash me-1"></i> Delete
+                        </button>
+                    </form>
                 </div>
             </div>
         @empty

@@ -66,12 +66,17 @@
                     <p class="text-xs text-gold-500 uppercase tracking-wider mb-1">{{ $product->category }}</p>
                     <h3 class="font-serif font-semibold text-ink-900 mb-1">{{ $product->name }}</h3>
                     <p class="font-semibold text-ink-900">₹{{ number_format($product->price) }}</p>
-                    <div class="flex gap-2 mt-3">
+                    <div class="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-gold-50">
                         <a href="{{ url('/admin/products/' . $product->id . '/edit') }}"
-                            class="text-xs text-gold-600 hover:underline">Edit</a>
-                        <a href="{{ url('/admin/products/' . $product->id . '/delete') }}"
-                            onclick="return confirm('Delete this product?')"
-                            class="text-xs text-red-500 hover:underline">Delete</a>
+                            class="text-xs text-center text-gold-700 bg-gold-50 hover:bg-gold-100 py-2 rounded-lg font-medium transition">
+                            <i class="bi bi-pencil me-1"></i> Edit
+                        </a>
+                        <form method="POST" action="{{ url('/admin/products/' . $product->id . '/delete') }}" onsubmit="return confirm('Delete this product?')" class="block">
+                            @csrf
+                            <button type="submit" class="w-full text-xs text-center text-red-600 bg-red-50 hover:bg-red-100 py-2 rounded-lg font-medium transition">
+                                <i class="bi bi-trash me-1"></i> Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

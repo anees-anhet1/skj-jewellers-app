@@ -31,9 +31,33 @@ class PlanController extends Controller
             'minimum_amount' => 'required|numeric',
         ]);
 
-        Plan::create($request->all());
+        Plan::create($request->only('name', 'short_description', 'duration_months', 'minimum_amount'));
 
         return back()->with('success', 'Plan added successfully!');
+    }
+
+    // Show edit form
+    public function edit($id)
+    {
+        $plan = Plan::findOrFail($id);
+        $plans = Plan::all();
+        return view('admin.edit-plan', compact('plan', 'plans'));
+    }
+
+    // Update a plan
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'short_description' => 'required',
+            'duration_months' => 'required|integer',
+            'minimum_amount' => 'required|numeric',
+        ]);
+
+        $plan = Plan::findOrFail($id);
+        $plan->update($request->only('name', 'short_description', 'duration_months', 'minimum_amount'));
+
+        return redirect('/admin/plans')->with('success', 'Plan updated successfully!');
     }
 
     // Delete a plan

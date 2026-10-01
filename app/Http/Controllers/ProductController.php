@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
     // Public Methods
     public function shopIndex(Request $request)
     {
@@ -49,7 +58,7 @@ class ProductController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        $products = $query->paginate(12)->withQueryString();
+        $products = $query->with('collection')->paginate(12)->withQueryString();
         
         // Pass categories to build the dynamic sidebar
         $categories = Product::select('category')->distinct()->pluck('category');
@@ -77,26 +86,9 @@ class ProductController extends Controller
         return view('admin.products', compact('products', 'collections'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'category' => 'required',
-            'price' => 'required|numeric',
-            'mrp' => 'nullable|numeric',
-            'image' => 'nullable|image',
-            'collection_id' => 'nullable|exists:collections,id',
-        ]);
-
-        $data = $request->except('image');
-        $data['is_featured'] = $request->has('is_featured');
-        $data['is_new_arrival'] = $request->has('is_new_arrival');
-        
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('products', 'public');
-        }
-
-        Product::create($data);
+        $this->productService->createProduct($request->validated(), $request->file('image'));
 
         return back()->with('success', 'Product added successfully.');
     }
@@ -108,31 +100,10 @@ class ProductController extends Controller
         return view('admin.edit-product', compact('product', 'collections'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
         $product = Product::findOrFail($id);
-
-        $request->validate([
-            'name' => 'required',
-            'category' => 'required',
-            'price' => 'required|numeric',
-            'mrp' => 'nullable|numeric',
-            'image' => 'nullable|image',
-            'collection_id' => 'nullable|exists:collections,id',
-        ]);
-
-        $data = $request->except('image');
-        $data['is_featured'] = $request->has('is_featured');
-        $data['is_new_arrival'] = $request->has('is_new_arrival');
-
-        if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
-            }
-            $data['image'] = $request->file('image')->store('products', 'public');
-        }
-
-        $product->update($data);
+        $this->productService->updateProduct($product, $request->validated(), $request->file('image'));
 
         return redirect('/admin/products')->with('success', 'Product updated successfully.');
     }
@@ -140,10 +111,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
-        }
-        $product->delete();
+        $this->productService->deleteProduct($product);
 
         return back()->with('success', 'Product deleted successfully.');
     }
