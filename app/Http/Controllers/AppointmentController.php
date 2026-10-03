@@ -27,7 +27,7 @@ class AppointmentController extends Controller
         $appointment = Appointment::create($data);
 
         // Notify admins
-        $admins = \App\Models\User::where('is_admin', true)->get();
+        $admins = \App\Models\User::where('role', 'admin')->get();
         \Illuminate\Support\Facades\Notification::send($admins, new \App\Notifications\NewAppointmentNotification($appointment));
 
         return back()->with('success', 'Appointment request sent! We will contact you shortly.');
