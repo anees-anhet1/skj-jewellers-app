@@ -34,26 +34,30 @@
             <input type="hidden" name="product_id" value="{{ $product->id }}">
         @endif
 
-        <div class="grid md:grid-cols-2 gap-6">
-            <div class="space-y-2">
-                <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70 ml-1">Full Name *</label>
-                <input type="text" name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}" placeholder="Enter your full name" required class="w-full px-5 py-3.5 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300">
-            </div>
-            <div class="space-y-2">
-                <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70 ml-1">Phone Number *</label>
-                <input type="tel" name="phone" value="{{ auth()->check() ? auth()->user()->phone : '' }}" placeholder="Enter your phone number" required class="w-full px-5 py-3.5 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300">
-            </div>
-        </div>
-
         <div class="space-y-2">
-            <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70 ml-1">Email Address *</label>
-            <input type="email" name="email" value="{{ auth()->check() ? auth()->user()->email : '' }}" placeholder="Enter your email address" required class="w-full px-5 py-3.5 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300">
+            <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70">Full Name *</label>
+            <input type="text" name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}" {{ auth()->check() ? 'readonly' : '' }} placeholder="Enter your full name" required class="w-full px-4 py-3 rounded-xl border border-ink-900/10 focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300 {{ auth()->check() ? 'bg-ink-900/10 text-ink-900/60 cursor-not-allowed font-medium' : 'bg-ink-900/5 focus:bg-white' }}">
         </div>
 
         <div class="grid md:grid-cols-2 gap-6">
             <div class="space-y-2">
-                <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70 ml-1">Preferred Store *</label>
-                <select name="store" class="w-full px-5 py-3.5 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300 appearance-none">
+                <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70">Email Address *</label>
+                <input type="email" name="email" value="{{ auth()->check() ? auth()->user()->email : '' }}" {{ auth()->check() ? 'readonly' : '' }} placeholder="Enter your email address" required class="w-full px-4 py-3 rounded-xl border border-ink-900/10 focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300 {{ auth()->check() ? 'bg-ink-900/10 text-ink-900/60 cursor-not-allowed font-medium' : 'bg-ink-900/5 focus:bg-white' }}">
+            </div>
+            
+            <div class="space-y-2">
+                <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70">Phone Number *</label>
+                <input type="tel" name="phone" value="{{ auth()->check() ? auth()->user()->phone : '' }}" {{ auth()->check() && auth()->user()->phone ? 'readonly' : '' }} placeholder="Enter your phone number" required class="w-full px-4 py-3 rounded-xl border border-ink-900/10 focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300 {{ auth()->check() && auth()->user()->phone ? 'bg-ink-900/10 text-ink-900/60 cursor-not-allowed font-medium' : 'bg-ink-900/5 focus:bg-white' }}">
+                @if(auth()->check() && !auth()->user()->phone)
+                    <p class="text-[10px] text-gold-600 mt-1 text-left">Please provide a phone number so we can contact you.</p>
+                @endif
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+                <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70">Preferred Store *</label>
+                <select name="store" class="w-full px-4 py-3 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300 appearance-none">
                     @foreach(config('brand.stores') as $store)
                         <option value="{{ config('brand.name') }} – {{ $store['area'] }}, {{ $store['city'] }}">
                             {{ config('brand.name') }} – {{ $store['area'] }}
@@ -62,14 +66,14 @@
                 </select>
             </div>
             <div class="space-y-2">
-                <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70 ml-1">Preferred Date *</label>
-                <input type="date" name="appointment_date" min="{{ date('Y-m-d') }}" required class="w-full px-5 py-3.5 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300 text-ink-900/70">
+                <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70">Preferred Date *</label>
+                <input type="date" name="appointment_date" min="{{ date('Y-m-d') }}" required class="w-full px-4 py-3 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300 text-ink-900/70">
             </div>
         </div>
 
         <div class="space-y-2">
-            <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70 ml-1">Additional Notes (Optional)</label>
-            <textarea name="message" placeholder="Are you looking for something specific?" rows="4" class="w-full px-5 py-3.5 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300"></textarea>
+            <label class="text-xs font-semibold uppercase tracking-wider text-ink-900/70">Additional Notes (Optional)</label>
+            <textarea name="message" placeholder="Are you looking for something specific?" rows="4" class="w-full px-4 py-3 rounded-xl border border-ink-900/10 bg-ink-900/5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent transition-all duration-300"></textarea>
         </div>
         
         <div class="pt-4">

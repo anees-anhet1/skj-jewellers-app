@@ -2,6 +2,7 @@
     $links = [
         ['Dashboard', '/dashboard', 'home'],
         ['Shop Jewellery', '/shop', 'shop'],
+        ['My Appointments', '/dashboard/appointments', 'calendar'],
         ['My Wishlist', '/dashboard/wishlist', 'heart'],
         ['My Plans', '/dashboard/my-plans', 'plans'],
         ['Join New Plan', '/dashboard/new-plan', 'new'],

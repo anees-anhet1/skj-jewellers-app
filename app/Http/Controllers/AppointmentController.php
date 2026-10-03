@@ -17,10 +17,14 @@ class AppointmentController extends Controller
         return view('pages.book-appointment', compact('product'));
     }
 
-    // Customer submits the form (public, no login needed)
     public function store(StoreAppointmentRequest $request)
     {
-        Appointment::create($request->validated());
+        $data = $request->validated();
+        if (auth()->check()) {
+            $data['user_id'] = auth()->id();
+        }
+        
+        Appointment::create($data);
 
         return back()->with('success', 'Appointment request sent! We will contact you shortly.');
     }

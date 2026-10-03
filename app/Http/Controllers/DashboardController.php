@@ -185,4 +185,27 @@ class DashboardController extends Controller
 
         return back()->with('success', 'Profile updated successfully!');
     }
+
+    // View My Appointments
+    public function appointments()
+    {
+        $appointments = \App\Models\Appointment::where('user_id', Auth::id())
+            ->with('product')
+            ->latest('appointment_date')
+            ->get();
+            
+        return view('dashboard.appointments', compact('appointments'));
+    }
+
+    // Cancel an Appointment
+    public function cancelAppointment($id)
+    {
+        $appointment = \App\Models\Appointment::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+            
+        $appointment->delete();
+        
+        return back()->with('success', 'Your appointment has been cancelled.');
+    }
 }

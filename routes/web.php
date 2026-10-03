@@ -65,7 +65,9 @@ Route::middleware('auth')->group(function () {
     Route::view('/dashboard/notifications', 'dashboard.notifications');
     Route::view('/dashboard/profile', 'dashboard.profile');
     Route::post('/dashboard/profile', [DashboardController::class, 'updateProfile']);
-
+    
+    Route::get('/dashboard/appointments', [DashboardController::class, 'appointments']);
+    Route::post('/dashboard/appointments/{id}/cancel', [DashboardController::class, 'cancelAppointment']);
 });
 
 

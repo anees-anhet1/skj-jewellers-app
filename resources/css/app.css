@@ -6,6 +6,7 @@
   html { scroll-behavior: smooth; }
   body { @apply bg-white text-ink-900 font-sans antialiased; }
   h1,h2,h3,h4 { @apply font-serif; }
+  input, textarea, select { text-align: left !important; }
 }
 
 @layer components {
