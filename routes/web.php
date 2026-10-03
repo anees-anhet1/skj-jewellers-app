@@ -76,6 +76,7 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/admin', [AdminController::class, 'index']);
     Route::get('/admin/search', [\App\Http\Controllers\AdminSearchController::class, 'search'])->name('admin.search');
+    Route::post('/admin/notifications/mark-read', [AdminController::class, 'markNotificationsRead'])->name('admin.notifications.markRead');
 
     // Customers
     Route::get('/admin/customers', [AdminController::class, 'customers']);

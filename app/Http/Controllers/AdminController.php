@@ -93,4 +93,10 @@ class AdminController extends Controller
 
         return view('admin.reports', compact('revenueThisMonth', 'newEnrollments', 'closedPlans', 'dailyRevenue'));
     }
+
+    public function markNotificationsRead()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+        return response()->json(['success' => true]);
+    }
 }

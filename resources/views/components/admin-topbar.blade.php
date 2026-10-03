@@ -53,12 +53,33 @@
                 </template>
             </div>
         </div>
-        <div class="relative ml-2" x-data="{ openNotify: false }">
+        <div class="relative ml-2" x-data="{ 
+            openNotify: false,
+            unreadCount: {{ auth()->user() ? auth()->user()->unreadNotifications->count() : 0 }},
+            markRead() {
+                if (this.unreadCount === 0) return;
+                fetch('{{ route('admin.notifications.markRead') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                }).then(() => {
+                    this.unreadCount = 0;
+                    // Visually mark as read
+                    document.querySelectorAll('.notification-item').forEach(el => {
+                        el.classList.remove('bg-gold-50/10');
+                        el.classList.add('opacity-60');
+                    });
+                });
+            }
+        }">
             <button @click="openNotify = !openNotify" @click.outside="openNotify = false" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-gold-500 hover:bg-gold-50 transition relative focus:outline-none">
                 <i class="bi bi-bell text-lg"></i>
-                @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
-                <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-                @endif
+                <template x-if="unreadCount > 0">
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </template>
             </button>
             
             <div x-show="openNotify" x-cloak
@@ -71,14 +92,14 @@
                 class="absolute right-0 mt-3 w-80 bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden z-50">
                 <div class="px-4 py-3 border-b border-gray-50 bg-gray-50/50 flex justify-between items-center">
                     <p class="text-sm font-semibold text-ink-900">Notifications</p>
-                    @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
-                    <span class="text-[10px] text-gold-600 bg-gold-50 px-2 py-0.5 rounded-full font-medium">{{ auth()->user()->unreadNotifications->count() }} new</span>
-                    @endif
+                    <template x-if="unreadCount > 0">
+                        <span class="text-[10px] text-gold-600 bg-gold-50 px-2 py-0.5 rounded-full font-medium"><span x-text="unreadCount"></span> new</span>
+                    </template>
                 </div>
                 <div class="max-h-80 overflow-y-auto">
                     @if(auth()->user())
                         @forelse(auth()->user()->notifications->take(5) as $notification)
-                            <div class="px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition {{ $notification->read_at ? 'opacity-60' : 'bg-gold-50/10' }}">
+                            <div class="notification-item px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition {{ $notification->read_at ? 'opacity-60' : 'bg-gold-50/10' }}">
                                 <p class="text-xs font-semibold text-ink-900">{{ $notification->data['title'] ?? 'System Alert' }}</p>
                                 <p class="text-xs text-gray-500 mt-0.5">{{ $notification->data['message'] ?? 'You have a new notification.' }}</p>
                                 <p class="text-[10px] text-gray-400 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
@@ -91,11 +112,11 @@
                         @endforelse
                     @endif
                 </div>
-                @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
-                <div class="px-4 py-2 border-t border-gray-50 bg-gray-50/50 text-center">
-                    <a href="#" class="text-xs text-gold-600 font-medium hover:text-gold-700">Mark all as read</a>
-                </div>
-                @endif
+                <template x-if="unreadCount > 0">
+                    <div class="px-4 py-2 border-t border-gray-50 bg-gray-50/50 text-center">
+                        <button @click="markRead()" class="text-xs text-gold-600 font-medium hover:text-gold-700 focus:outline-none w-full py-1">Mark all as read</button>
+                    </div>
+                </template>
             </div>
         </div>
         <div class="relative ml-2" x-data="{ open: false }">
