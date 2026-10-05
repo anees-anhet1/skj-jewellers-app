@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactController;
 
 
 
@@ -31,7 +32,8 @@ Route::post('/book-appointment', [AppointmentController::class, 'store']);
 
 Route::view('/store-locator', 'pages.store-locator');
 Route::view('/about', 'pages.about');
-Route::view('/contact', 'pages.contact');
+Route::get('/contact', [ContactController::class, 'create']);
+Route::post('/contact', [ContactController::class, 'store']);
 
 
 // Auth
@@ -125,5 +127,12 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/reports', [AdminController::class, 'reports']);
     Route::get('/admin/settings', [AdminController::class, 'settings']);
     Route::post('/admin/settings', [AdminController::class, 'updateSettings']);
+
+    // Contact Messages
+    Route::get('/admin/contact-messages', [ContactController::class, 'adminIndex']);
+    Route::get('/admin/contact-messages/{id}', [ContactController::class, 'adminShow']);
+    Route::post('/admin/contact-messages/{id}/status', [ContactController::class, 'updateStatus']);
+    Route::post('/admin/contact-messages/{id}/notes', [ContactController::class, 'addNotes']);
+    Route::post('/admin/contact-messages/{id}/delete', [ContactController::class, 'destroy']);
 
 });

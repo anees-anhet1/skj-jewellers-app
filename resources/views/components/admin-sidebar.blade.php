@@ -5,6 +5,7 @@ $links = [
     ['Plans & Schemes', '/admin/plans', 'bi-journal-richtext'],
     ['Payments', '/admin/payments', 'bi-credit-card'],
     ['Appointments', '/admin/appointments', 'bi-calendar-check'],
+    ['Messages', '/admin/contact-messages', 'bi-envelope'],
     ['Products', '/admin/products', 'bi-box-seam'],
     ['Collections', '/admin/collections', 'bi-collection'],
     ['Offers', '/admin/offers', 'bi-tags'],
